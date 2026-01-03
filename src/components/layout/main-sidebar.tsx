@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, LineChart, Leaf, DollarSign } from 'lucide-react';
+import { LayoutDashboard, LineChart, Leaf, DollarSign, ClipboardList } from 'lucide-react';
 
 import {
   Sidebar,
@@ -30,6 +30,11 @@ const navItems = [
     label: 'Finance',
     icon: DollarSign,
   },
+    {
+    href: '/cost-tracking',
+    label: 'Cost Tracking',
+    icon: ClipboardList,
+    },
 ];
 
 export function MainSidebar() {

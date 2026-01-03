@@ -6,9 +6,9 @@ import {
   Home,
   LineChart,
   PanelLeft,
-  Search,
   Leaf,
   DollarSign,
+  ClipboardList,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -52,6 +52,7 @@ const navItems = [
   { href: '/', label: 'Dashboard', icon: Home },
   { href: '/analytics', label: 'Analytics', icon: LineChart },
   { href: '/finance', label: 'Finance', icon: DollarSign },
+  { href: '/cost-tracking', label: 'Cost Tracking', icon: ClipboardList },
 ];
 
 export function Header() {

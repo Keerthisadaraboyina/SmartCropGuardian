@@ -8,6 +8,10 @@ import {
   predictPestOutbreaks,
   type PredictPestOutbreaksInput,
 } from '@/ai/flows/predict-pest-outbreaks';
+import {
+    predictProfit,
+    type PredictProfitInput,
+} from '@/ai/flows/predict-profit';
 import { z } from 'zod';
 
 const predictSchema = z.object({
@@ -85,4 +89,35 @@ export async function generateCropGuidanceAction(prevState: any, formData: FormD
     console.error(error);
     return { ...prevState, success: false, error: 'Failed to generate crop guidance.' };
   }
+}
+
+const profitSchema = z.object({
+    cropType: z.string(),
+    totalCost: z.coerce.number(),
+    marketPrice: z.coerce.number(),
+});
+
+export async function predictProfitAction(prevState: any, formData: FormData) {
+    try {
+        const validatedFields = profitSchema.safeParse({
+            cropType: formData.get('cropType'),
+            totalCost: formData.get('totalCost'),
+            marketPrice: formData.get('marketPrice'),
+        });
+
+        if (!validatedFields.success) {
+            return {
+                ...prevState,
+                success: false,
+                error: 'Invalid input.',
+            };
+        }
+
+        const result = await predictProfit(validatedFields.data);
+        return { ...prevState, success: true, data: result };
+
+    } catch (error) {
+        console.error(error);
+        return { ...prevState, success: false, error: 'Failed to predict profit.' };
+    }
 }
