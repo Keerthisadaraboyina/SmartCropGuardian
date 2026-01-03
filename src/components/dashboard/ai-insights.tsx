@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, useActionState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { AlertCircle, Bot, Leaf, Sparkles, Droplets, Shield, Syringe } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
@@ -44,7 +45,7 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
 function PestPrediction({ onPredictionComplete }: { onPredictionComplete: (data: PredictPestOutbreaksOutput) => void }) {
     const { toast } = useToast();
     const initialState = { success: false, data: null, error: null };
-    const [state, dispatch] = useActionState(predictPestOutbreaksAction, initialState);
+    const [state, formAction] = useActionState(predictPestOutbreaksAction, initialState);
 
     useEffect(() => {
         if(state.error) {
@@ -60,7 +61,7 @@ function PestPrediction({ onPredictionComplete }: { onPredictionComplete: (data:
     }, [state, toast, onPredictionComplete]);
 
   return (
-    <form action={dispatch}>
+    <form action={formAction}>
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -130,7 +131,7 @@ function PestPrediction({ onPredictionComplete }: { onPredictionComplete: (data:
 function CropGuidance({ predictionResult }: { predictionResult: PredictPestOutbreaksOutput | null }) {
     const { toast } = useToast();
     const initialState = { success: false, data: null, error: null };
-    const [state, dispatch] = useActionState(generateCropGuidanceAction, initialState);
+    const [state, formAction] = useActionState(generateCropGuidanceAction, initialState);
 
     useEffect(() => {
         if(state.error) {
@@ -143,7 +144,7 @@ function CropGuidance({ predictionResult }: { predictionResult: PredictPestOutbr
     }, [state, toast]);
 
     return (
-        <form action={dispatch}>
+        <form action={formAction}>
             {predictionResult && (
                 <>
                     <input type="hidden" name="pestRisk" value={predictionResult.pestRiskLevel} />

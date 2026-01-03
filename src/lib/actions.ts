@@ -29,7 +29,7 @@ export async function predictPestOutbreaksAction(
       return {
         ...prevState,
         success: false,
-        error: 'Invalid input.',
+        error: 'Invalid input. Please select a crop and location.',
       };
     }
     
@@ -65,7 +65,7 @@ export async function generateCropGuidanceAction(prevState: any, formData: FormD
         return {
           ...prevState,
           success: false,
-          error: 'Invalid input.',
+          error: 'Invalid input. Please select a crop.',
         };
     }
 
