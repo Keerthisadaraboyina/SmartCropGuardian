@@ -36,7 +36,7 @@ import {
 import { Trash2, Plus, Sparkles } from 'lucide-react';
 import { predictProfitAction } from '@/lib/actions';
 import { cropTypes, financeData } from '@/lib/data';
-import type { PredictProfitOutput } from '@/ai/schemas/predict-profit-schema';
+import type { PredictProfitInput, PredictProfitOutput } from '@/ai/schemas/predict-profit-schema';
 
 const costItemSchema = z.object({
   category: z.string().min(1, 'Category is required'),
