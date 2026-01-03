@@ -8,6 +8,7 @@ import {
   predictPestOutbreaks,
   type PredictPestOutbreaksInput,
 } from '@/ai/flows/predict-pest-outbreaks';
+import { translateText, type TranslateTextInput } from '@/ai/flows/translate-text';
 import { z } from 'zod';
 import { currentSensorData } from './data';
 
@@ -56,6 +57,7 @@ const guidanceSchema = z.object({
     cropType: z.string(),
     pestRisk: z.string().optional(),
     diseaseRisk: z.string().optional(),
+    language: z.string().optional(),
 });
 
 export async function generateCropGuidanceAction(prevState: any, formData: FormData) {
@@ -64,6 +66,7 @@ export async function generateCropGuidanceAction(prevState: any, formData: FormD
         cropType: formData.get('cropType'),
         pestRisk: formData.get('pestRisk'),
         diseaseRisk: formData.get('diseaseRisk'),
+        language: formData.get('language'),
     });
 
     if (!validatedFields.success) {
@@ -74,16 +77,32 @@ export async function generateCropGuidanceAction(prevState: any, formData: FormD
         };
     }
 
+    const { cropType, pestRisk, diseaseRisk, language } = validatedFields.data;
+
     const input: GenerateCropGuidanceInput = {
-      cropType: validatedFields.data.cropType,
+      cropType: cropType,
       soilMoisture: currentSensorData.soilMoisture,
       temperature: currentSensorData.temperature,
       humidity: currentSensorData.humidity,
       rainfall: currentSensorData.rainfall,
-      pestRisk: validatedFields.data.pestRisk || 'low',
-      diseaseRisk: validatedFields.data.diseaseRisk || 'low',
+      pestRisk: pestRisk || 'low',
+      diseaseRisk: diseaseRisk || 'low',
     };
-    const result = await generateCropGuidance(input);
+    let result = await generateCropGuidance(input);
+
+    if (language === 'te') {
+        const [irrigation, pestControl, naturalRemedies] = await Promise.all([
+            translateText({ text: result.irrigationRecommendation, targetLanguage: 'Telugu' }),
+            translateText({ text: result.pestControlRecommendation, targetLanguage: 'Telugu' }),
+            translateText({ text: result.naturalRemediesRecommendation, targetLanguage: 'Telugu' }),
+        ]);
+        result = {
+            irrigationRecommendation: irrigation.translation,
+            pestControlRecommendation: pestControl.translation,
+            naturalRemediesRecommendation: naturalRemedies.translation,
+        }
+    }
+
     return { ...prevState, success: true, data: result };
   } catch (error) {
     console.error(error);

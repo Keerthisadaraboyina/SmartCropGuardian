@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { AlertCircle, Bot, Leaf, Sparkles, Droplets, Shield, Syringe } from 'lucide-react';
+import { AlertCircle, Bot, Leaf, Sparkles, Droplets, Shield, Syringe, Languages } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
 import {
@@ -32,6 +32,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
 
 function SubmitButton({ children }: { children: React.ReactNode }) {
   const { pending } = useFormStatus();
@@ -167,6 +170,21 @@ function CropGuidance({ predictionResult }: { predictionResult: PredictPestOutbr
                             ))}
                         </SelectContent>
                     </Select>
+
+                    <div className="space-y-2">
+                        <Label className="flex items-center gap-2"><Languages className="h-4 w-4" /> Language</Label>
+                        <RadioGroup defaultValue="en" name="language" className="flex gap-4">
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="en" id="lang-en" />
+                                <Label htmlFor="lang-en">English</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="te" id="lang-te" />
+                                <Label htmlFor="lang-te">Telugu</Label>
+                            </div>
+                        </RadioGroup>
+                    </div>
+
                     {state.data && (
                         <Accordion type="single" collapsible defaultValue="item-1" className="w-full">
                             <AccordionItem value="item-1">
