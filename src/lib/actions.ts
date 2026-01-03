@@ -9,6 +9,7 @@ import {
   type PredictPestOutbreaksInput,
 } from '@/ai/flows/predict-pest-outbreaks';
 import { z } from 'zod';
+import { currentSensorData } from './data';
 
 const predictSchema = z.object({
     cropType: z.string(),
@@ -35,7 +36,10 @@ export async function predictPestOutbreaksAction(
     
     const input: PredictPestOutbreaksInput = {
         ...validatedFields.data,
-        sensorData: "Soil Moisture: 45%, Temperature: 22°C, Humidity: 68%, Rainfall: 5mm",
+        temperature: currentSensorData.temperature,
+        humidity: currentSensorData.humidity,
+        rainfall: currentSensorData.rainfall,
+        soilMoisture: currentSensorData.soilMoisture,
         historicalTrends: "Similar conditions last year led to minor aphid presence.",
     };
 
@@ -43,7 +47,8 @@ export async function predictPestOutbreaksAction(
     return { ...prevState, success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { ...prevState, success: false, error: 'Failed to predict pest outbreaks.' };
+    const errorMessage = error instanceof Error ? error.message : 'Failed to predict pest outbreaks.';
+    return { ...prevState, success: false, error: errorMessage };
   }
 }
 
@@ -69,13 +74,12 @@ export async function generateCropGuidanceAction(prevState: any, formData: FormD
         };
     }
 
-    // Note: In a real app, this data would come from live sensors.
     const input: GenerateCropGuidanceInput = {
       cropType: validatedFields.data.cropType,
-      soilMoisture: 45,
-      temperature: 22,
-      humidity: 68,
-      rainfall: 5,
+      soilMoisture: currentSensorData.soilMoisture,
+      temperature: currentSensorData.temperature,
+      humidity: currentSensorData.humidity,
+      rainfall: currentSensorData.rainfall,
       pestRisk: validatedFields.data.pestRisk || 'low',
       diseaseRisk: validatedFields.data.diseaseRisk || 'low',
     };
@@ -83,6 +87,7 @@ export async function generateCropGuidanceAction(prevState: any, formData: FormD
     return { ...prevState, success: true, data: result };
   } catch (error) {
     console.error(error);
-    return { ...prevState, success: false, error: 'Failed to generate crop guidance.' };
+    const errorMessage = error instanceof Error ? error.message : 'Failed to generate crop guidance.';
+    return { ...prevState, success: false, error: errorMessage };
   }
 }
