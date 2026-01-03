@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, LineChart, Leaf } from 'lucide-react';
+import { LayoutDashboard, LineChart, Leaf, DollarSign } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
 import {
   Sidebar,
   SidebarHeader,
@@ -25,6 +24,11 @@ const navItems = [
     href: '/analytics',
     label: 'Analytics',
     icon: LineChart,
+  },
+  {
+    href: '/finance',
+    label: 'Finance',
+    icon: DollarSign,
   },
 ];
 

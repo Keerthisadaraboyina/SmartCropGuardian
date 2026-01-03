@@ -11,3 +11,11 @@ export type ChartDataPoint = {
 };
 
 export type WeeklyChartData = ChartDataPoint[];
+
+export type FinanceData = {
+    crop: string;
+    marketPrice: number;
+    costOfProduction: number;
+    profitability: number;
+    priceTrend: number[];
+};
