@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import React, { useEffect, useState, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { AlertCircle, Bot, Leaf, Sparkles, Droplets, Shield, Syringe } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 
@@ -44,7 +44,7 @@ function SubmitButton({ children }: { children: React.ReactNode }) {
 function PestPrediction({ onPredictionComplete }: { onPredictionComplete: (data: PredictPestOutbreaksOutput) => void }) {
     const { toast } = useToast();
     const initialState = { success: false, data: null, error: null };
-    const [state, dispatch] = useFormState(predictPestOutbreaksAction, initialState);
+    const [state, dispatch] = useActionState(predictPestOutbreaksAction, initialState);
 
     useEffect(() => {
         if(state.error) {
@@ -130,7 +130,7 @@ function PestPrediction({ onPredictionComplete }: { onPredictionComplete: (data:
 function CropGuidance({ predictionResult }: { predictionResult: PredictPestOutbreaksOutput | null }) {
     const { toast } = useToast();
     const initialState = { success: false, data: null, error: null };
-    const [state, dispatch] = useFormState(generateCropGuidanceAction, initialState);
+    const [state, dispatch] = useActionState(generateCropGuidanceAction, initialState);
 
     useEffect(() => {
         if(state.error) {
