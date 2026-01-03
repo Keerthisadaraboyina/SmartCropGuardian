@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'CropSafe AI',
+  title: 'Smart Crop Guardian',
   description: 'Predict, Protect, Prosper with AI-powered crop management.',
 };
 

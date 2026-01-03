@@ -36,14 +36,14 @@ export function MainSidebar() {
       <SidebarHeader>
         <div className="flex items-center gap-2">
           <Leaf className="size-8 text-primary" />
-          <h1 className="text-xl font-semibold font-headline">CropSafe AI</h1>
+          <h1 className="text-xl font-semibold font-headline">Smart Crop Guardian</h1>
         </div>
       </SidebarHeader>
 
       <SidebarMenu>
         {navItems.map((item) => (
           <SidebarMenuItem key={item.href}>
-            <Link href={item.href} passHref>
+            <Link href={item.href}>
               <SidebarMenuButton
                 isActive={pathname === item.href}
                 tooltip={item.label}
