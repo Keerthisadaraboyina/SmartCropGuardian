@@ -1,9 +1,9 @@
 'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import type { WeeklyChartData } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartXAxis, ChartYAxis } from '@/components/ui/chart';
 
 interface WeeklyChartProps {
   data: WeeklyChartData;
@@ -21,29 +21,28 @@ export function WeeklyChart({ data, title, description, dataKey, unit }: WeeklyC
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="h-[300px] w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
-            <XAxis
+        <ChartContainer config={{}} className="h-full w-full">
+          <BarChart data={data} accessibilityLayer>
+            <ChartXAxis
               dataKey="date"
-              stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
               tickLine={false}
               axisLine={false}
+              tickMargin={8}
+              
             />
-            <YAxis
-              stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
+            <ChartYAxis
               tickFormatter={(value) => `${value}${unit}`}
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
             />
-             <Tooltip
+             <ChartTooltip
               cursor={{ fill: 'hsl(var(--muted))' }}
               content={<ChartTooltipContent indicator="dot" />}
             />
             <Bar dataKey={dataKey} fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
           </BarChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   );

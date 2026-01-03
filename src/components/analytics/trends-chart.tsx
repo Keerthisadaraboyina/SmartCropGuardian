@@ -3,16 +3,14 @@
 import {
   Line,
   LineChart,
-  ResponsiveContainer,
   XAxis,
   YAxis,
   Tooltip,
   CartesianGrid,
-  Legend,
 } from 'recharts';
 import type { WeeklyChartData } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 
 interface TrendsChartProps {
   data: WeeklyChartData;
@@ -31,7 +29,7 @@ export function TrendsChart({ data, title, description, dataKey, unit, color }: 
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="h-[350px]">
-        <ResponsiveContainer width="100%" height="100%">
+        <ChartContainer config={{}} className="h-full w-full">
           <LineChart
             data={data}
             margin={{
@@ -40,6 +38,7 @@ export function TrendsChart({ data, title, description, dataKey, unit, color }: 
               left: -10,
               bottom: 0,
             }}
+            accessibilityLayer
           >
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis
@@ -78,7 +77,7 @@ export function TrendsChart({ data, title, description, dataKey, unit, color }: 
               }}
             />
           </LineChart>
-        </ResponsiveContainer>
+        </ChartContainer>
       </CardContent>
     </Card>
   );

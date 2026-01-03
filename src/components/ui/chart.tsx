@@ -38,9 +38,7 @@ const ChartContainer = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
     config: ChartConfig
-    children: React.ComponentProps<
-      typeof RechartsPrimitive.ResponsiveContainer
-    >["children"]
+    children: React.ReactNode
   }
 >(({ id, className, children, config, ...props }, ref) => {
   const uniqueId = React.useId()
@@ -355,6 +353,10 @@ function getPayloadConfigFromPayload(
     : config[key as keyof typeof config]
 }
 
+const ChartYAxis = RechartsPrimitive.YAxis;
+
+const ChartXAxis = RechartsPrimitive.XAxis;
+
 export {
   ChartContainer,
   ChartTooltip,
@@ -362,4 +364,6 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  ChartYAxis,
+  ChartXAxis,
 }
